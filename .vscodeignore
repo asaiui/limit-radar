@@ -1,0 +1,6 @@
+scripts/**
+.github/**
+media/screenshot-*.png
+*.vsix
+RELEASING.md
+.gitignore

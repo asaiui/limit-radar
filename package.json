@@ -1,0 +1,148 @@
+{
+  "name": "limit-radar",
+  "displayName": "Limit Radar",
+  "description": "See your Codex, Claude and Antigravity 5-hour / weekly limits at a glance. No login, no tokens, no telemetry. / Codex・Claude・Antigravity の5時間・週間制限を一括表示",
+  "version": "0.2.0",
+  "publisher": "asaiui",
+  "author": "asaiui",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#161b26",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asaiui/limit-radar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/asaiui/limit-radar/issues"
+  },
+  "homepage": "https://github.com/asaiui/limit-radar#readme",
+  "keywords": [
+    "codex",
+    "claude",
+    "claude code",
+    "antigravity",
+    "rate limit",
+    "usage",
+    "quota",
+    "status bar"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "main": "./extension.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "limitRadar.refresh",
+        "title": "Limit Radar: 今すぐ更新",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "limitRadar.openPanel",
+        "title": "Limit Radar: パネルを開く"
+      },
+      {
+        "command": "limitRadar.setupClaude",
+        "title": "Limit Radar: Claude 連携をセットアップ"
+      },
+      {
+        "command": "limitRadar.removeClaudeSetup",
+        "title": "Limit Radar: Claude 連携を解除"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "limitRadar",
+          "title": "Limit Radar",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "limitRadar": [
+        {
+          "type": "webview",
+          "id": "limitRadar.panel",
+          "name": "使用量"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "limitRadar.refresh",
+          "when": "view == limitRadar.panel",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Limit Radar",
+      "properties": {
+        "limitRadar.codex.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Codex の使用量を表示する"
+        },
+        "limitRadar.claude.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Claude の使用量を表示する"
+        },
+        "limitRadar.antigravity.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Antigravity の使用量を表示する"
+        },
+        "limitRadar.claude.source": {
+          "type": "string",
+          "enum": [
+            "statusline",
+            "api"
+          ],
+          "enumDescriptions": [
+            "推奨。Claude Code 公式のステータスライン機能から使用率を記録します。トークンに触れず、通信もしません",
+            "上級者向け・自己責任。Claude Code のログイントークンで非公開 API を問い合わせます。Claude Code を使っていなくても最新値が取れますが、規約上の扱いが不明確で、予告なく使えなくなる場合があります"
+          ],
+          "default": "statusline",
+          "description": "Claude の使用量の取得方法"
+        },
+        "limitRadar.claude.refreshSeconds": {
+          "type": "number",
+          "default": 180,
+          "minimum": 60,
+          "description": "取得方法が api のときの問い合わせ間隔（秒）"
+        },
+        "limitRadar.warnPercent": {
+          "type": "number",
+          "default": 80,
+          "description": "この使用率(%)以上で黄色表示・通知"
+        },
+        "limitRadar.criticalPercent": {
+          "type": "number",
+          "default": 95,
+          "description": "この使用率(%)以上で赤色表示・通知"
+        },
+        "limitRadar.notifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "しきい値を超えたときに通知する"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+# v* タグを push すると VSIX を作って GitHub Release に添付する（ストアには公開しない）
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check tag matches package.json version
+        run: |
+          PKG="v$(node -p "require('./package.json').version")"
+          if [ "$PKG" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $PKG"; exit 1
+          fi
+
+      - name: Syntax check
+        run: for f in extension.js bridge/*.js src/*.js src/providers/*.js; do node --check "$f"; done
+
+      - name: Package
+        run: npx --yes @vscode/vsce@3 package --out "limit-radar-${GITHUB_REF_NAME#v}.vsix"
+
+      - name: Create GitHub Release
+        run: gh release create "$GITHUB_REF_NAME" limit-radar-*.vsix --title "$GITHUB_REF_NAME" --notes "See CHANGELOG.md"
+        env:
+          GH_TOKEN: ${{ github.token }}
