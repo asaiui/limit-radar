@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Redesigned the status bar tooltip: one block per window with a colored percentage, bar and reset time instead of a wide table
+- Long Antigravity model groups are shortened to "<first model> ほかN" with the full list shown underneath
+
 ## 0.2.0
 
 - First public release as **Limit Radar**

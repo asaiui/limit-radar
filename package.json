@@ -2,7 +2,7 @@
   "name": "limit-radar",
   "displayName": "Limit Radar",
   "description": "See your Codex, Claude and Antigravity 5-hour / weekly limits at a glance. No login, no tokens, no telemetry. / Codex・Claude・Antigravity の5時間・週間制限を一括表示",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "asaiui",
   "author": "asaiui",
   "license": "MIT",

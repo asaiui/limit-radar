@@ -6,7 +6,7 @@ Limit Radar は VS Code Marketplace / Open VSX には公開せず、GitHub Relea
 2. コミットしてタグを push する
 
 ```powershell
-git tag v0.2.0
+git tag v0.2.1
 ```
 
 ```powershell

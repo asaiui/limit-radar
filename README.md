@@ -22,7 +22,7 @@ Limit Radar is distributed on GitHub only (not on the VS Code Marketplace).
 2. Install it:
 
 ```powershell
-code --install-extension limit-radar-0.2.0.vsix
+code --install-extension limit-radar-0.2.1.vsix
 ```
 
 Or build it yourself from source: `npx @vscode/vsce package`
@@ -90,7 +90,7 @@ Limit Radar is an unofficial tool and is not affiliated with OpenAI, Anthropic o
 GitHub でのみ配布しています（VS Code Marketplace には出していません）。
 
 1. [Releases](https://github.com/asaiui/limit-radar/releases) から `limit-radar-x.y.z.vsix` をダウンロード
-2. `code --install-extension limit-radar-0.2.0.vsix` でインストール
+2. `code --install-extension limit-radar-0.2.1.vsix` でインストール
 
 ソースから自分でビルドする場合は `npx @vscode/vsce package` を実行します。
 
