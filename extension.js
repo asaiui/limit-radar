@@ -6,6 +6,7 @@ const antigravity = require('./src/providers/antigravity');
 const bridge = require('./src/claudeStatusline');
 const fmt = require('./src/format');
 const notify = require('./src/notify');
+const { buildTooltip } = require('./src/tooltip');
 const { UsagePanelProvider } = require('./src/panel');
 
 const PROVIDERS = [codex, claude, antigravity];
@@ -156,19 +157,13 @@ function render() {
 }
 
 function tooltip(p, d, error, status) {
-  const md = new vscode.MarkdownString(undefined, true);
-  md.appendMarkdown(`**${p.name}**${d && d.plan ? ` (${d.plan})` : ''}\n\n`);
-  if (d) {
-    md.appendMarkdown('| 枠 | 使用率 | リセット |\n|---|---:|---|\n');
-    for (const w of d.windows) {
-      const reset = w.resetPassed ? 'リセット済み' : `${fmt.untilText(w.resetsAt)}（${fmt.dateText(w.resetsAt)}）`;
-      md.appendMarkdown(`| ${w.label.replace(/\|/g, '/')} | ${fmt.pct(w.usedPercent)} | ${reset} |\n`);
-    }
-    md.appendMarkdown(`\n${fmt.agoText(d.asOf)}の値`);
-    if (d.note) md.appendMarkdown(` — ${d.note}`);
-  }
-  if (error) md.appendMarkdown(`\n\n$(warning) ${error}`);
-  md.appendMarkdown(status === 'setup' ? '\n\nクリックでセットアップ' : '\n\nクリックでパネルを開く');
+  const c = cfg();
+  const md = new vscode.MarkdownString(
+    buildTooltip(p, d, { error, status, warn: c.warn, critical: c.critical }),
+    true
+  );
+  // 色付きの <span style="color:..."> を使うため。リンクやコマンドは含めない
+  md.supportHtml = true;
   return md;
 }
 
